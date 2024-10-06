@@ -22,9 +22,9 @@ const Form = () => {
   const [allUrls, setAllUrls] = useState([]);
 
   const btnColor = useColorModeValue("#0265D2", "#0265D2");
-  const inpColor= useColorModeValue("#FFFFFF","#262626")
-  const delBtn = useColorModeValue("#e83030","#C53030")
-  const txtColor = useColorModeValue("black","white")
+  const inpColor = useColorModeValue("#FFFFFF", "#262626");
+  const delBtn = useColorModeValue("#e83030", "#C53030");
+  const txtColor = useColorModeValue("black", "white");
 
   const handleAddNewURL = async () => {
     if (!urlData.redirectURL) {
@@ -32,7 +32,7 @@ const Form = () => {
       return;
     }
     try {
-      const response = await createURL(urlData); // Assuming createURL is updated in your api.js
+      const response = await createURL(urlData);
       console.log("URL added successfully", response.data);
       setUrlData({ redirectURL: "" });
       fetchAllUrls();
@@ -44,7 +44,7 @@ const Form = () => {
 
   const fetchAllUrls = async () => {
     try {
-      const response = await getAllUrls(); // Assuming getAllUrls is updated in your api.js
+      const response = await getAllUrls();
       setAllUrls(response.data);
     } catch (error) {
       console.error("Error fetching URLs", error);
@@ -76,7 +76,9 @@ const Form = () => {
             type="text"
             placeholder="https://www.example.com"
             value={urlData.redirectURL}
-            onChange={(e) => setUrlData({ ...urlData, redirectURL: e.target.value })}
+            onChange={(e) =>
+              setUrlData({ ...urlData, redirectURL: e.target.value })
+            }
             flex="1"
             bg={inpColor}
             textColor={txtColor}
@@ -90,15 +92,9 @@ const Form = () => {
             <Thead>
               <Tr>
                 <Th fontWeight={700} fontSize={15} textAlign={"center"}>S No.</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>
-                  Original URL
-                </Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"150px"}>
-                  Short ID
-                </Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>
-                  Redirect URL
-                </Th>
+                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Original URL</Th>
+                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"150px"}>Short ID</Th>
+                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Redirect URL</Th>
                 <Th fontWeight={700} fontSize={15} textAlign={"center"}>Total Clicks</Th>
                 <Th fontWeight={700} fontSize={15} textAlign={"center"}>Actions</Th>
               </Tr>
@@ -107,15 +103,15 @@ const Form = () => {
               {allUrls.map((url, index) => (
                 <Tr key={url.shortID} borderBottom="1px solid" borderColor="#db009d">
                   <Td textAlign={"center"}>{index + 1}</Td>
-                  <Td textAlign={"center"} minWidth={"250px"}>{url.redirectURL}</Td>
+                  <Td textAlign={"center"} minWidth={"250px"} style={{ maxWidth: '250px', overflowWrap: 'break-word', wordWrap: 'break-word', overflow: 'hidden' }}>{url.redirectURL}</Td>
                   <Td textAlign={"center"} minWidth={"150px"}>{url.shortID}</Td>
                   <Td textAlign={"center"} textDecoration={"underline"} minWidth={"250px"}>
                     <a
-                      href={`https://url-shortner-backend-e3sjeje5b-mohd-shayans-projects.vercel.app/api/url/${url.shortID}`} // Updated URL
+                      href={`https://url-shortner-backend-3478e8x1r-mohd-shayans-projects.vercel.app/api/url/${url.shortID}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      https://url123short.vercel.app/api/url/{url.shortID} 
+                      http://localhost:3003/api/url/{url.shortID}
                     </a>
                   </Td>
                   <Td textAlign={"center"}>{url.visitHistory.length}</Td>
@@ -123,7 +119,7 @@ const Form = () => {
                     <Button
                       bg={delBtn}
                       textColor={"White"}
-                      _hover={{bg : "#a82828"}}
+                      _hover={{ bg: "#a82828" }}
                       onClick={() => deleteUrl(url.shortID)}
                     >
                       Delete
