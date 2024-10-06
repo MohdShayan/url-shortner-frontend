@@ -115,7 +115,7 @@ const Form = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      https://url-shortner-backend-e3sjeje5b-mohd-shayans-projects.vercel.app/api/url/{url.shortID} // Updated URL
+                      https://url123short.vercel.app/api/url/{url.shortID} 
                     </a>
                   </Td>
                   <Td textAlign={"center"}>{url.visitHistory.length}</Td>
