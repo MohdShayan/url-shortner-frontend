@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL= 'https://url-shortner-backend-e3sjeje5b-mohd-shayans-projects.vercel.app/api/url'
+const API_URL= 'https://url123short.vercel.app/api/url'
 
 export const createURL = async (urlData) => {
   return axios.post(API_URL, urlData);
