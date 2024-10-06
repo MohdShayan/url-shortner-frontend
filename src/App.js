@@ -7,10 +7,18 @@ import { Box, useColorModeValue } from "@chakra-ui/react";
 function App() {
   const bgColor = useColorModeValue("#EEEAE3","#212121")
   return (
-    <Box minH={"100vh"} bg={bgColor}>
+      <Box 
+      minH="100vh"          
+      h="auto"              
+      w="100%"              
+      maxW="100vw"         
+      bg={bgColor}          
+      overflowY="auto"      
+      overflowX="hidden"    
+    >
       <Navbar />
       <Form />
-    </Box>
+  </Box>
   );
 }
 
