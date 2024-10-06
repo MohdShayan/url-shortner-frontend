@@ -15,11 +15,13 @@ import {
   VStack,
   Box,
   useColorModeValue,
+  Spinner, 
 } from "@chakra-ui/react";
 
 const Form = () => {
   const [urlData, setUrlData] = useState({ redirectURL: "" });
   const [allUrls, setAllUrls] = useState([]);
+  const [loading, setLoading] = useState(false); // Loading state
 
   const btnColor = useColorModeValue("#0265D2", "#0265D2");
   const inpColor = useColorModeValue("#FFFFFF", "#262626");
@@ -43,11 +45,14 @@ const Form = () => {
   };
 
   const fetchAllUrls = async () => {
+    setLoading(true); 
     try {
       const response = await getAllUrls();
       setAllUrls(response.data);
     } catch (error) {
       console.error("Error fetching URLs", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -87,49 +92,57 @@ const Form = () => {
             Shorten Link
           </Button>
         </HStack>
-        <Box w="100%">
-          <Table variant="simple" mt={4} w="100%">
-            <Thead>
-              <Tr>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"}>S No.</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Original URL</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"150px"}>Short ID</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Redirect URL</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"}>Total Clicks</Th>
-                <Th fontWeight={700} fontSize={15} textAlign={"center"}>Actions</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {allUrls.map((url, index) => (
-                <Tr key={url.shortID} borderBottom="1px solid" borderColor="#db009d">
-                  <Td textAlign={"center"}>{index + 1}</Td>
-                  <Td textAlign={"center"} minWidth={"250px"} style={{ maxWidth: '250px', overflowWrap: 'break-word', wordWrap: 'break-word', overflow: 'hidden' }}>{url.redirectURL}</Td>
-                  <Td textAlign={"center"} minWidth={"150px"}>{url.shortID}</Td>
-                  <Td textAlign={"center"} textDecoration={"underline"} minWidth={"250px"}>
-                    <a
-                      href={`https://url-shortner-backend-3478e8x1r-mohd-shayans-projects.vercel.app/api/url/${url.shortID}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      http://localhost:3003/api/url/{url.shortID}
-                    </a>
-                  </Td>
-                  <Td textAlign={"center"}>{url.visitHistory.length}</Td>
-                  <Td>
-                    <Button
-                      bg={delBtn}
-                      textColor={"White"}
-                      _hover={{ bg: "#a82828" }}
-                      onClick={() => deleteUrl(url.shortID)}
-                    >
-                      Delete
-                    </Button>
-                  </Td>
+
+        {loading ? ( 
+          <Box mt={4}>
+            <Spinner size="xl" />
+            <Text mt={2}>Loading URLs...</Text>
+          </Box>
+        ) : (
+          <Box w="100%">
+            <Table variant="simple" mt={4} w="100%">
+              <Thead>
+                <Tr>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"}>S No.</Th>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Original URL</Th>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"150px"}>Short ID</Th>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"} minWidth={"250px"}>Redirect URL</Th>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"}>Total Clicks</Th>
+                  <Th fontWeight={700} fontSize={15} textAlign={"center"}>Actions</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </Box>
+              </Thead>
+              <Tbody>
+                {allUrls.map((url, index) => (
+                  <Tr key={url.shortID} borderBottom="1px solid" borderColor="#db009d">
+                    <Td textAlign={"center"}>{index + 1}</Td>
+                    <Td textAlign={"center"} minWidth={"250px"} style={{ maxWidth: '250px', overflowWrap: 'break-word', wordWrap: 'break-word', overflow: 'hidden' }}>{url.redirectURL}</Td>
+                    <Td textAlign={"center"} minWidth={"150px"}>{url.shortID}</Td>
+                    <Td textAlign={"center"} textDecoration={"underline"} minWidth={"250px"}>
+                      <a
+                        href={`https://url-shortner-backend-3478e8x1r-mohd-shayans-projects.vercel.app/api/url/${url.shortID}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        http://localhost:3003/api/url/{url.shortID}
+                      </a>
+                    </Td>
+                    <Td textAlign={"center"}>{url.visitHistory.length}</Td>
+                    <Td>
+                      <Button
+                        bg={delBtn}
+                        textColor={"White"}
+                        _hover={{ bg: "#a82828" }}
+                        onClick={() => deleteUrl(url.shortID)}
+                      >
+                        Delete
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+        )}
       </VStack>
     </Container>
   );
