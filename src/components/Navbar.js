@@ -36,6 +36,7 @@ const Navbar = () => {
             onClick={toggleColorMode}
             bg={btnColor}
             _hover={{ bg: hoverBtn }}
+            size={{ base: "sm", md: "md" }}  // Responsive button size
           >
             {colorMode === "light" ? <IoMoon size={20} /> : <LuSun size={20} />}
           </Button>
